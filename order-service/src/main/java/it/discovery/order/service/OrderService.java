@@ -9,10 +9,10 @@ import org.springframework.web.client.RestTemplate;
 import it.discovery.order.model.Book;
 import it.discovery.order.model.Order;
 import it.discovery.order.repository.OrderRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderService {
 	
 	private final OrderRepository orderRepository;
@@ -27,7 +27,7 @@ public class OrderService {
 		order.setBookId(bookId);
 		order.setCreated(LocalDateTime.now());
 		Book book = restTemplate.getForObject(
-				bookServiceUrl + "/book", Book.class);
+				bookServiceUrl + "/book/" + bookId, Book.class);
 		order.setPrice(book.getPrice());
 		orderRepository.save(order);
 	}
