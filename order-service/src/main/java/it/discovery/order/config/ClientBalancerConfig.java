@@ -9,10 +9,10 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 import it.discovery.balancer.api.HealthCheckStrategy;
-import it.discovery.balancer.api.RestService;
 import it.discovery.balancer.api.ServerSelectionStrategy;
 import it.discovery.balancer.config.ServerConfiguration;
 import it.discovery.balancer.impl.DefaultBalancerAPI;
+import it.discovery.balancer.impl.rest.RestTemplateService;
 import it.discovery.balancer.impl.strategy.NoneHealthCheckStrategy;
 import it.discovery.balancer.impl.strategy.RandomServerSelectionStrategy;
 
@@ -47,17 +47,10 @@ public class ClientBalancerConfig {
 		return new ServerConfiguration();
 	}
 	
-//	@Bean
-//	public RestTemplate restTemplate() {
-//		return new RestTemplateService();
-//	}
-	
 	@Bean
-	public RestTemplate restTemplate(
-			Environment env, RestTemplateBuilder builder) {
-		return builder.rootUri(env
-				.getProperty("app.book-service.url"))
-				.build();
+	public RestTemplateService restTemplate(
+			ServerSelectionStrategy strategy) {
+		return new RestTemplateService(strategy);
 	}
 
 }

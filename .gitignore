@@ -8,3 +8,4 @@ bin
 *.classpath
 *.iml
 *.zip
+*.factorypath
