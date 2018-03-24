@@ -12,12 +12,4 @@ public class OrderApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OrderApplication.class, args);
 	}
-	
-	@Bean
-	public RestTemplate restTemplate(
-			Environment env, RestTemplateBuilder builder) {
-		return builder.rootUri(env
-				.getProperty("app.book-service.url"))
-				.build();
-	}
 }

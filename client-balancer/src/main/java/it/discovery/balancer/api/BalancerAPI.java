@@ -1,9 +1,8 @@
 package it.discovery.balancer.api;
 
-import java.util.List;
+import org.springframework.web.client.RestOperations;
 
 import it.discovery.balancer.config.ServerConfiguration;
-import it.discovery.balancer.config.ServerDefinition;
 
 public interface BalancerAPI {
 	
@@ -18,4 +17,8 @@ public interface BalancerAPI {
 	void setHealthCheckStrategy(HealthCheckStrategy strategy);
 	
 	HealthCheckStrategy getHealthCheckStrategy();
+	
+	void setRestService(RestOperations restOperations);
+	
+	RestOperations getRestService();
 }
