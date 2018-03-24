@@ -18,7 +18,7 @@ public class OrderService {
 	
 	private final RestTemplate restTemplate;
 	
-	public void makeOrder(int bookId) {
+	public Order makeOrder(int bookId) {
 		Order order = new Order();
 		order.setBookId(bookId);
 		order.setCreated(LocalDateTime.now());
@@ -26,5 +26,7 @@ public class OrderService {
 				"/book/" + bookId, Book.class);
 		order.setPrice(book.getPrice());
 		orderRepository.save(order);
+		
+		return order;
 	}
 }
