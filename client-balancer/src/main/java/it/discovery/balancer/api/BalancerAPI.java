@@ -2,13 +2,14 @@ package it.discovery.balancer.api;
 
 import java.util.List;
 
+import it.discovery.balancer.config.ServerConfiguration;
 import it.discovery.balancer.config.ServerDefinition;
 
 public interface BalancerAPI {
 	
-	void setServers(List<ServerDefinition> servers);
+	void setServerConfiguration(ServerConfiguration serverConfiguration);
 	
-	List<ServerDefinition> getServers();
+	ServerConfiguration getServerConfiguration();
 	
 	void setServerSelectionStrategy(ServerSelectionStrategy strategy);
 	

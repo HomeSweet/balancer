@@ -7,4 +7,11 @@
   </parent>
   <artifactId>client-balancer</artifactId>
   <name>Client-side load balancer component</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-configuration-processor</artifactId>
+  		<optional>true</optional>
+  	</dependency>
+  </dependencies>
 </project>
