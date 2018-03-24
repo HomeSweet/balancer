@@ -1,0 +1,44 @@
+plugins {
+	id 'org.springframework.boot' version '2.0.0.RELEASE'
+}
+
+allprojects {
+    apply plugin: 'maven'
+    apply plugin: 'eclipse'    
+    apply plugin: 'org.springframework.boot'
+
+    group = 'it.discovery'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+        
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile 'org.springframework.boot:spring-boot-starter-web'
+        compile 'org.projectlombok:lombok:1.16.20'
+        compile 'org.apache.commons:commons-lang3'
+        
+        compile 'org.springframework.boot:spring-boot-devtools'
+        
+        testCompile 'org.junit.jupiter:junit-jupiter-api'
+    	testRuntime 'org.junit.jupiter:junit-jupiter-engine'        
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+eclipse {
+    classpath {
+        downloadSources = true
+    }
+}
