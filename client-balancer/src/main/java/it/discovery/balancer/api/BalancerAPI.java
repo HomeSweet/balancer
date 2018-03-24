@@ -1,4 +1,4 @@
-package it.discovery.balancer;
+package it.discovery.balancer.api;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface BalancerAPI {
 	
 	ServerSelectionStrategy getServerSelectionStrategy();
 	
-	void setHealthCheckingStrategy(HealthCheckStrategy strategy);
+	void setHealthCheckStrategy(HealthCheckStrategy strategy);
 	
 	HealthCheckStrategy getHealthCheckStrategy();
 }

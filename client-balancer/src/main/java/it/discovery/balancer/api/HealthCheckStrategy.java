@@ -1,4 +1,4 @@
-package it.discovery.balancer;
+package it.discovery.balancer.api;
 
 import it.discovery.balancer.config.ServerDefinition;
 
