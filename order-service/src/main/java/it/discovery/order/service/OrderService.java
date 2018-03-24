@@ -2,7 +2,6 @@ package it.discovery.order.service;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,17 +16,14 @@ public class OrderService {
 	
 	private final OrderRepository orderRepository;
 	
-	@Value("${app.book-service.url}")
-	private String bookServiceUrl;
-	
-	private RestTemplate restTemplate = new RestTemplate();
+	private final RestTemplate restTemplate;
 	
 	public void makeOrder(int bookId) {
 		Order order = new Order();
 		order.setBookId(bookId);
 		order.setCreated(LocalDateTime.now());
 		Book book = restTemplate.getForObject(
-				bookServiceUrl + "/book/" + bookId, Book.class);
+				"/book/" + bookId, Book.class);
 		order.setPrice(book.getPrice());
 		orderRepository.save(order);
 	}
