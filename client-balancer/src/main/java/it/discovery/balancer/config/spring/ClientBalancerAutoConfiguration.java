@@ -1,6 +1,7 @@
 package it.discovery.balancer.config.spring;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,8 +33,10 @@ public class ClientBalancerAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public RestTemplateService restTemplate(
-			ServerSelectionStrategy strategy) {
-		return new RestTemplateService(strategy);
+			ServerSelectionStrategy strategy,
+			ApplicationEventPublisher publisher) {
+		return new RestTemplateService(strategy,
+				publisher);
 	}
 	
 	@Bean
