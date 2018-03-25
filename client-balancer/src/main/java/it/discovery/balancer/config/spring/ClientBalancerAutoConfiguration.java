@@ -4,8 +4,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import it.discovery.balancer.api.HealthCheckStrategy;
 import it.discovery.balancer.api.ServerSelectionStrategy;
+import it.discovery.balancer.config.BalancerMetricsConfig;
 import it.discovery.balancer.config.ServerConfiguration;
 import it.discovery.balancer.impl.rest.RestTemplateService;
 import it.discovery.balancer.impl.strategy.NoneHealthCheckStrategy;
@@ -32,6 +34,15 @@ public class ClientBalancerAutoConfiguration {
 	public RestTemplateService restTemplate(
 			ServerSelectionStrategy strategy) {
 		return new RestTemplateService(strategy);
+	}
+	
+	@Bean
+	@ConditionalOnMissingBean
+	public BalancerMetricsConfig balancerMetricsConfig(
+			ServerConfiguration serverConfiguration,
+			MeterRegistry meterRegistry) {
+		return new BalancerMetricsConfig(serverConfiguration,
+				meterRegistry);
 	}
 
 }
