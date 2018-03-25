@@ -36,7 +36,7 @@ public class ClientBalancerConfig {
 		return new CaffeineCacheStrategy(serverConfiguration);
 	}
 	
-	@Bean
+	//@Bean
 	public HealthCheckStrategy healthCheckStrategy() {
 		return new ActuatorHealthCheckStrategy();
 	}

@@ -7,7 +7,7 @@ public class NoneHealthCheckStrategy implements HealthCheckStrategy {
 
 	@Override
 	public void healthCheck(ServerDefinition serverDefinition) {
-		System.out.println("Health checking server " + serverDefinition.getUrl());
+		//System.out.println("Health checking server " + serverDefinition.getUrl());
 	}
 
 }

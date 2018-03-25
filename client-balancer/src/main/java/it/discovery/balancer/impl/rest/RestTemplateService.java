@@ -62,6 +62,7 @@ public class RestTemplateService extends RestTemplate implements RestService {
 				publisher.publishEvent(new MetricEvent(this, "balancer.total.requests", 1));
 			}
 		});
+		cacheStrategy.update(url.toString(), t);
 		return t;
 	}
 
