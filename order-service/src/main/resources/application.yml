@@ -1,6 +1,6 @@
 balancer:
   servers:
-    - url: 
+    - url: http://localhost:8080
       enabled: true
     - url: http://localhost:8090
       enabled: true

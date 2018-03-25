@@ -8,8 +8,10 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import it.discovery.order.model.Order;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
+@Slf4j
 public class SimpleOrderRepository implements OrderRepository {
 	private final Map<Integer, Order> orders = new HashMap<>();
 
@@ -31,10 +33,10 @@ public class SimpleOrderRepository implements OrderRepository {
 			counter++;
 			order.setId(counter);
 			orders.put(counter, order);
-			System.out.println("*** Order with id=" + order.getId() + " was created");
+			log.debug("*** Order with id={} was created", order.getId());
 		} else {
 			orders.put(order.getId(), order);
-			System.out.println("*** Order with id=" + order.getId() + " was updated");
+			log.debug("*** Order with id={} was updated", order.getId());
 		}
 	}
 

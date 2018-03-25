@@ -25,7 +25,4 @@ implements RestService {
 		return super.doExecute(URI.create(
 				prefix + url.toString()), method, requestCallback, responseExtractor);
 	}
-	
-	
-
 }

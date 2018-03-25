@@ -7,8 +7,9 @@ import java.util.Random;
 import it.discovery.balancer.api.ServerSelectionStrategy;
 import it.discovery.balancer.config.ServerDefinition;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor @Slf4j
 public class RandomServerSelectionStrategy implements
 ServerSelectionStrategy{
 	
@@ -19,8 +20,8 @@ ServerSelectionStrategy{
 	@Override
 	public ServerDefinition select() {
 		int idx = random.nextInt(servers.size());
-		System.out.println("Randomly selected server " +
-		servers.get(idx).getUrl());
+		log.debug("Randomly selected server {}",
+				servers.get(idx).getUrl());
 		return servers.get(idx);
 	}
 	
