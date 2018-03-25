@@ -8,6 +8,8 @@ import org.springframework.web.client.RestOperations;
 
 import it.discovery.balancer.api.HealthCheckStrategy;
 import it.discovery.balancer.api.ServerSelectionStrategy;
+import it.discovery.balancer.cache.CacheStrategy;
+import it.discovery.balancer.cache.CaffeineCacheStrategy;
 import it.discovery.balancer.config.ServerConfiguration;
 import it.discovery.balancer.config.spring.ClientBalancerAutoConfiguration;
 import it.discovery.balancer.impl.DefaultBalancerAPI;
@@ -26,6 +28,12 @@ public class ClientBalancerConfig {
 		return new DefaultBalancerAPI(
 				serverConfiguration, serverSelectionStrategy,
 				healthCheckStrategy, restTemplate);
+	}
+	
+	@Bean
+	public CacheStrategy cacheStrategy(ServerConfiguration
+			serverConfiguration) {
+		return new CaffeineCacheStrategy(serverConfiguration);
 	}
 	
 	@Bean

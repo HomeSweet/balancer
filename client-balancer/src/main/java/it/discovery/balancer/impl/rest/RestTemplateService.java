@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import it.discovery.balancer.api.RestService;
 import it.discovery.balancer.api.ServerSelectionStrategy;
+import it.discovery.balancer.cache.CacheStrategy;
 import it.discovery.balancer.config.ServerConfiguration;
 import it.discovery.balancer.config.ServerConfiguration.RetryConfiguration;
 import it.discovery.balancer.event.MetricEvent;
@@ -23,16 +24,18 @@ public class RestTemplateService extends RestTemplate implements RestService {
 	private final ServerSelectionStrategy serverSelectionStrategy;
 
 	private final ApplicationEventPublisher publisher;
-
-	private final RetryConfiguration retryConfiguration;
+	
+	private final CacheStrategy cacheStrategy;
 
 	private final RetryPolicy retryPolicy;
 
 	public RestTemplateService(ServerSelectionStrategy serverSelectionStrategy, ApplicationEventPublisher publisher,
-			ServerConfiguration serverConfiguration) {
+			ServerConfiguration serverConfiguration,
+			CacheStrategy cacheStrategy) {
 		this.serverSelectionStrategy = serverSelectionStrategy;
 		this.publisher = publisher;
-		this.retryConfiguration = serverConfiguration.getRetryConfiguration();
+		this.cacheStrategy = cacheStrategy;
+		RetryConfiguration retryConfiguration = serverConfiguration.getRetryConfiguration();
 
 		retryPolicy = new RetryPolicy()
 				.withDelay(retryConfiguration.getDelay(), TimeUnit.MILLISECONDS)
@@ -43,7 +46,12 @@ public class RestTemplateService extends RestTemplate implements RestService {
 	@Override
 	protected <T> T doExecute(URI url, HttpMethod method, RequestCallback requestCallback,
 			ResponseExtractor<T> responseExtractor) throws RestClientException {
-		T t = Failsafe.with(retryPolicy).onFailedAttempt((ex) ->
+		T t = cacheStrategy.get(url.toString());
+		if(t != null) {
+			return t;
+		}
+		
+		t = Failsafe.with(retryPolicy).onFailedAttempt((ex) ->
 				System.out.println("Connection error: " + 
 		ex.getMessage()))
 				.get(() -> {

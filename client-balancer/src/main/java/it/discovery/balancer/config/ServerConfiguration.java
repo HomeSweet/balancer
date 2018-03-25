@@ -20,6 +20,9 @@ public class ServerConfiguration {
 	@Valid
 	private RetryConfiguration retryConfiguration;
 	
+	@Valid
+	private CacheConfiguration cacheConfiguration;
+	
 	@Getter @Setter @Validated
 	public static class RetryConfiguration {
 		/**
@@ -30,5 +33,24 @@ public class ServerConfiguration {
 		
 		@Max(10)
 		private int maxRetries;
+	}
+	
+	@Getter @Setter @Validated
+	public static class CacheConfiguration {
+		/**
+		 * Whether cache globally enabled or disabled
+		 */
+		private boolean enabled;
+		@Min(1)
+		private int maxSize;
+		
+		@Min(1)
+		private int initialSize;
+		
+		@Min(1000)
+		/**
+		 * Expiration time after the last access
+		 */
+		private int expirationTime;
 	}
 }

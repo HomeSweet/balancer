@@ -25,5 +25,9 @@
 			<artifactId>failsafe</artifactId>
 			<version>1.0.5</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+		</dependency>
 	</dependencies>
 </project>

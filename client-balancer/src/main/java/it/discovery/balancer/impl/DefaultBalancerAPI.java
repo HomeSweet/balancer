@@ -12,19 +12,18 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class DefaultBalancerAPI implements BalancerAPI{
+public class DefaultBalancerAPI implements BalancerAPI {
 
 	private final ServerConfiguration serverConfiguration;
-	
+
 	private final ServerSelectionStrategy serverSelectionStrategy;
-	
+
 	private final HealthCheckStrategy healthCheckStrategy;
-	
+
 	private final RestOperations restService;
-	
-	@Scheduled(fixedDelay=3000)
+
+	@Scheduled(fixedDelay = 3000)
 	public void healthCheck() {
-		serverConfiguration.getServers()
-		.forEach(healthCheckStrategy::healthCheck);
+		serverConfiguration.getServers().forEach(healthCheckStrategy::healthCheck);
 	}
 }
