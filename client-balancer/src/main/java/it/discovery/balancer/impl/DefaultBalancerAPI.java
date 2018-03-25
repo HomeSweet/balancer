@@ -8,17 +8,16 @@ import it.discovery.balancer.api.ServerSelectionStrategy;
 import it.discovery.balancer.config.ServerConfiguration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
 @AllArgsConstructor
 public class DefaultBalancerAPI implements BalancerAPI{
 
-	private ServerConfiguration serverConfiguration;
+	private final ServerConfiguration serverConfiguration;
 	
-	private ServerSelectionStrategy serverSelectionStrategy;
+	private final ServerSelectionStrategy serverSelectionStrategy;
 	
-	private HealthCheckStrategy healthCheckStrategy;
+	private final HealthCheckStrategy healthCheckStrategy;
 	
-	private RestOperations restService;
+	private final RestOperations restService;
 }

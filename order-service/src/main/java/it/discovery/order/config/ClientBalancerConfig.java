@@ -1,22 +1,19 @@
 package it.discovery.order.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestOperations;
-import org.springframework.web.client.RestTemplate;
 
 import it.discovery.balancer.api.HealthCheckStrategy;
 import it.discovery.balancer.api.ServerSelectionStrategy;
 import it.discovery.balancer.config.ServerConfiguration;
+import it.discovery.balancer.config.spring.ClientBalancerAutoConfiguration;
 import it.discovery.balancer.impl.DefaultBalancerAPI;
-import it.discovery.balancer.impl.rest.RestTemplateService;
-import it.discovery.balancer.impl.strategy.NoneHealthCheckStrategy;
-import it.discovery.balancer.impl.strategy.RandomServerSelectionStrategy;
 
 @Configuration
+@Import(ClientBalancerAutoConfiguration.class)
 public class ClientBalancerConfig {
 	
 	@Bean
@@ -31,26 +28,8 @@ public class ClientBalancerConfig {
 	}
 	
 	@Bean
-	public HealthCheckStrategy healthCheckStrategy() {
-		return new NoneHealthCheckStrategy();
-	}
-	
-	@Bean
-	public ServerSelectionStrategy serverSelectionStrategy(
-			ServerConfiguration serverConfiguration) {
-		return new RandomServerSelectionStrategy(serverConfiguration.getServers());
-	}
-	
-	@Bean
 	@ConfigurationProperties("balancer")
 	public ServerConfiguration serverConfiguration() {
 		return new ServerConfiguration();
 	}
-	
-	@Bean
-	public RestTemplateService restTemplate(
-			ServerSelectionStrategy strategy) {
-		return new RestTemplateService(strategy);
-	}
-
 }

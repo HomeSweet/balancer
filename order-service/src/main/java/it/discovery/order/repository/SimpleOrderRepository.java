@@ -1,9 +1,9 @@
 package it.discovery.order.repository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @Slf4j
 public class SimpleOrderRepository implements OrderRepository {
-	private final Map<Integer, Order> orders = new HashMap<>();
+	private final Map<Integer, Order> orders = new ConcurrentHashMap<>();
 
 	private int counter = 0;
 
