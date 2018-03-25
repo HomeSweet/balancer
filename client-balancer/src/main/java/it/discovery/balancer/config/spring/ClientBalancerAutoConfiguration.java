@@ -34,9 +34,10 @@ public class ClientBalancerAutoConfiguration {
 	@ConditionalOnMissingBean
 	public RestTemplateService restTemplate(
 			ServerSelectionStrategy strategy,
-			ApplicationEventPublisher publisher) {
+			ApplicationEventPublisher publisher,
+			ServerConfiguration serverConfiguration) {
 		return new RestTemplateService(strategy,
-				publisher);
+				publisher, serverConfiguration);
 	}
 	
 	@Bean
