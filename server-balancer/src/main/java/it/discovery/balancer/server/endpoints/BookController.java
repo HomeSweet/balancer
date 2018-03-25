@@ -27,9 +27,9 @@ public class BookController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Book> findBookById(@PathVariable int id) {
+	public Book findBookById(@PathVariable int id) {
 		return balancerAPI.getRestService()
-				.getForObject("/book/" + id, ResponseEntity.class);
+				.getForObject("/book/" + id, Book.class);
 	}
 
 }
