@@ -1,5 +1,6 @@
 package it.discovery.balancer.impl;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestOperations;
 
 import it.discovery.balancer.api.BalancerAPI;
@@ -20,4 +21,10 @@ public class DefaultBalancerAPI implements BalancerAPI{
 	private final HealthCheckStrategy healthCheckStrategy;
 	
 	private final RestOperations restService;
+	
+	@Scheduled(fixedDelay=3000)
+	public void healthCheck() {
+		serverConfiguration.getServers()
+		.forEach(healthCheckStrategy::healthCheck);
+	}
 }

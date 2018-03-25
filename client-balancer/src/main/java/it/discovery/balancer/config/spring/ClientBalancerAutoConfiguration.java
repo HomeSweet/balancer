@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import it.discovery.balancer.api.HealthCheckStrategy;
@@ -15,6 +16,7 @@ import it.discovery.balancer.impl.strategy.NoneHealthCheckStrategy;
 import it.discovery.balancer.impl.strategy.RandomServerSelectionStrategy;
 
 @Configuration
+@EnableScheduling
 public class ClientBalancerAutoConfiguration {
 	
 	@Bean
