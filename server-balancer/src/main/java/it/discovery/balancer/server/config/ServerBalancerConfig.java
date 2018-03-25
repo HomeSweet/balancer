@@ -1,4 +1,4 @@
-package it.discovery.order.config;
+package it.discovery.balancer.server.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -8,9 +8,6 @@ import org.springframework.web.client.RestOperations;
 
 import it.discovery.balancer.api.HealthCheckStrategy;
 import it.discovery.balancer.api.ServerSelectionStrategy;
-import it.discovery.balancer.cache.CacheStrategy;
-import it.discovery.balancer.cache.CaffeineCacheStrategy;
-import it.discovery.balancer.cache.NoCacheStrategy;
 import it.discovery.balancer.config.ServerConfiguration;
 import it.discovery.balancer.config.spring.ClientBalancerAutoConfiguration;
 import it.discovery.balancer.impl.DefaultBalancerAPI;
@@ -18,22 +15,13 @@ import it.discovery.balancer.impl.strategy.ActuatorHealthCheckStrategy;
 
 @Configuration
 @Import(ClientBalancerAutoConfiguration.class)
-public class ClientBalancerConfig {
+public class ServerBalancerConfig {
 
 	@Bean
 	public DefaultBalancerAPI balancerAPI(ServerConfiguration serverConfiguration,
 			HealthCheckStrategy healthCheckStrategy, ServerSelectionStrategy serverSelectionStrategy,
 			RestOperations restTemplate) {
 		return new DefaultBalancerAPI(serverConfiguration, serverSelectionStrategy, healthCheckStrategy, restTemplate);
-	}
-
-	@Bean
-	public CacheStrategy cacheStrategy(ServerConfiguration serverConfiguration) {
-		if (serverConfiguration.getCacheConfiguration().isEnabled()) {
-			return new CaffeineCacheStrategy(serverConfiguration);
-		} else {
-			return new NoCacheStrategy();
-		}
 	}
 
 	// @Bean

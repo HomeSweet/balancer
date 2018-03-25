@@ -19,16 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import it.discovery.controller.exception.BookValidationException;
 import it.discovery.model.Book;
 import it.discovery.repository.BookRepository;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/book")
+@RequiredArgsConstructor
 public class BookController {
 
 	private final BookRepository bookRepository;
-
-	public BookController(BookRepository bookRepository) {
-		this.bookRepository = bookRepository;
-	}
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<Book> getBooks() {
