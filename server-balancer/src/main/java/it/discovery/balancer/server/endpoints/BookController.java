@@ -2,6 +2,7 @@ package it.discovery.balancer.server.endpoints;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,14 @@ public class BookController {
 	private final BalancerAPI balancerAPI;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@Cacheable("books")
 	public List<Book> getBooks() {
 		return balancerAPI.getRestService()
 				.getForObject("/book", List.class);
 	}
 
 	@GetMapping("/{id}")
+	@Cacheable("book")
 	public Book findBookById(@PathVariable int id) {
 		return balancerAPI.getRestService()
 				.getForObject("/book/" + id, Book.class);

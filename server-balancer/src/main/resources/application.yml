@@ -12,3 +12,8 @@ balancer:
       enabled: true
     - url: http://localhost:8090
       enabled: true
+    
+spring:
+  cache:
+    caffeine:
+      spec: maximumSize=500,expireAfterAccess=600s      

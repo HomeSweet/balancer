@@ -3,7 +3,7 @@ balancer:
     delay: 2000
     max-retries: 5
   cache-configuration:
-    enabled: true
+    enabled: false
     initial-size: 100
     max-size: 1000
     expiration-time: 60000
