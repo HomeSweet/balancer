@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.amqp.RabbitProperties.Retry;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -36,14 +37,19 @@ public class RestTemplateService extends RestTemplate implements RestService {
 		this.publisher = publisher;
 		this.retryConfiguration = serverConfiguration.getRetryConfiguration();
 
-		retryPolicy = new RetryPolicy().withDelay(retryConfiguration.getDelay(), TimeUnit.MILLISECONDS)
-				.retryOn(ConnectException.class).withMaxRetries(retryConfiguration.getMaxRetries());
+		retryPolicy = new RetryPolicy()
+				.withDelay(retryConfiguration.getDelay(), TimeUnit.MILLISECONDS)
+				.retryOn(ResourceAccessException.class)
+				.withMaxRetries(retryConfiguration.getMaxRetries());
 	}
 
 	@Override
 	protected <T> T doExecute(URI url, HttpMethod method, RequestCallback requestCallback,
 			ResponseExtractor<T> responseExtractor) throws RestClientException {
-		T t = Failsafe.with(retryPolicy).get(() -> {
+		T t = Failsafe.with(retryPolicy).onFailedAttempt((ex) ->
+				System.out.println("Connection error: " + 
+		ex.getMessage()))
+				.get(() -> {
 			try {
 				String prefix = serverSelectionStrategy.select().getUrl();
 				return super.doExecute(URI.create(prefix + url.toString()), method, requestCallback, responseExtractor);

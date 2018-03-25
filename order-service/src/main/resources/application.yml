@@ -1,4 +1,7 @@
 balancer:
+  retry-configuration:
+    delay: 2000
+    max-retries: 5
   servers:
     - url: http://localhost:8080
       enabled: true
