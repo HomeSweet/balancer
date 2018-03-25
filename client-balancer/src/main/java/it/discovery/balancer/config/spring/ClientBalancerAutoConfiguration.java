@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import io.micrometer.core.instrument.MeterRegistry;
 import it.discovery.balancer.api.HealthCheckStrategy;
 import it.discovery.balancer.api.ServerSelectionStrategy;
+import it.discovery.balancer.cache.CacheStrategy;
+import it.discovery.balancer.cache.NoCacheStrategy;
 import it.discovery.balancer.config.BalancerMetricsConfig;
 import it.discovery.balancer.config.ServerConfiguration;
 import it.discovery.balancer.impl.rest.RestTemplateService;
@@ -27,6 +29,12 @@ public class ClientBalancerAutoConfiguration {
 	
 	@Bean
 	@ConditionalOnMissingBean
+	public CacheStrategy cacheStrategy() {
+		return new NoCacheStrategy();
+	}
+	
+	@Bean
+	@ConditionalOnMissingBean
 	public ServerSelectionStrategy serverSelectionStrategy(
 			ServerConfiguration serverConfiguration) {
 		return new RandomServerSelectionStrategy(serverConfiguration.getServers());
@@ -37,9 +45,10 @@ public class ClientBalancerAutoConfiguration {
 	public RestTemplateService restTemplate(
 			ServerSelectionStrategy strategy,
 			ApplicationEventPublisher publisher,
-			ServerConfiguration serverConfiguration) {
+			ServerConfiguration serverConfiguration,
+			CacheStrategy cacheStrategy) {
 		return new RestTemplateService(strategy,
-				publisher, serverConfiguration);
+				publisher, serverConfiguration, cacheStrategy);
 	}
 	
 	@Bean

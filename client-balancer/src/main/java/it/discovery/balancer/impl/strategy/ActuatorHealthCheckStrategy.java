@@ -2,7 +2,6 @@ package it.discovery.balancer.impl.strategy;
 
 import java.util.Map;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import it.discovery.balancer.api.HealthCheckStrategy;
@@ -14,7 +13,7 @@ HealthCheckStrategy{
 
 	@Override
 	public void healthCheck(ServerDefinition serverDefinition) {
-		Map responseEntity= 
+		Map<String, ?> responseEntity= 
 				restTemplate.getForObject(serverDefinition.getUrl() + 
 				"/actuator/health", Map.class);
 		System.out.println(responseEntity);

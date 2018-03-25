@@ -2,6 +2,11 @@ balancer:
   retry-configuration:
     delay: 2000
     max-retries: 5
+  cache-configuration:
+    enabled: true
+    initial-size: 100
+    max-size: 1000
+    expiration-time: 10000
   servers:
     - url: http://localhost:8080
       enabled: true
